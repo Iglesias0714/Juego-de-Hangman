@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif; /* Cambiando la fuente a Arial */
+    background-color: #f8f9fa; /* Cambiando el color de fondo */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px; /* Aumentando el ancho máximo del contenedor */
+    margin: 0 auto;
+    padding: 3rem 1rem; /* Reduciendo el relleno */
+    text-align: center;
+  }
+  
+  .logo {
+    height: 100px; /* Reduciendo el tamaño del logo */
+    padding: 1rem;
+    transition: transform 0.3s ease-in-out; /* Cambiando la transición a ease-in-out */
+  }
+  .logo:hover {
+    transform: scale(1.1); /* Escalando el logo al hacer hover */
+  }
+  
+  .logo.react:hover {
+    filter: grayscale(100%); /* Aplicando escala de grises al logo react al hacer hover */
+  }
+  
+  .card {
+    padding: 1.5rem;
+    border-radius: 15px; /* Aumentando el radio de borde */
+    background-color: #fff; /* Cambiando el color de fondo */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Cambiando la sombra */
+    margin-bottom: 2rem;
+  }
+  
+  .read-the-docs {
+    color: #333; /* Cambiando el color del texto a un gris más oscuro */
+  }
+  
