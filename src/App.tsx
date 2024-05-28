@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hangman from "./components/Hangman"; // Importar el componente Hangman
 import Welcome from "./components/Welcome"; // Importar el componente Welcome
 
-const wordCategories = {
+type WordCategories = {
+  [key: string]: {
+    words: string[];
+    hints: Record<string, string>;
+  };
+};
+
+const wordCategories: WordCategories = {
   paisesDeAmerica: {
     words: ['estadosunidos', 'canada', 'brasil', 'argentina', 'mexico', 'colombia'],
     hints: {
@@ -50,6 +57,27 @@ const wordCategories = {
 
 function App() {
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+
+  useEffect(() => {
+    if (currentCategory) {
+      setStartTime(Date.now());
+      setTimeLeft(60);
+    }
+  }, [currentCategory]);
+  
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setTimeout(() => {
+        setTimeLeft(60 - Math.floor((Date.now() - startTime) / 1000));
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (currentCategory) {
+      alert("¡Tiempo agotado!");
+      setCurrentCategory(null);
+    }
+  }, [timeLeft, startTime, currentCategory]);
 
   const selectRandomCategory = () => {
     const categories = Object.keys(wordCategories);
@@ -60,19 +88,19 @@ function App() {
   return (
     <div className="App">
       <Welcome />
-      <div className="category-container">
-        <button onClick={selectRandomCategory} className="random-button">
-          Seleccionar categoría aleatoria
-        </button>
-        {currentCategory && (
+      <div className="container">
+        {currentCategory ? (
           <div className="category-animation">
-            <h2>{currentCategory}</h2>
-            {/* Comprobación condicional para asegurarse de que currentCategory no sea null */}
+            <h1>{currentCategory}</h1>
+            <p>Tiempo transcurrido: {60 - timeLeft} segundos</p>
+            <p>Tiempo restante: {timeLeft} segundos</p>
             <Hangman
-              words={wordCategories[currentCategory]?.words}
-              hints={wordCategories[currentCategory]?.hints}
+              words={wordCategories[currentCategory].words}
+              hints={wordCategories[currentCategory].hints}
             />
           </div>
+        ) : (
+          <button onClick={selectRandomCategory}>Seleccionar categoría aleatoria</button>
         )}
       </div>
     </div>
