@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 interface HangmanProps {
   words: string[];
@@ -22,7 +22,7 @@ const Hangman = ({ words, hints }: HangmanProps) => {
     }
   }, [selectedWord, hints, words]);
 
-  const displayWord = selectedWord.split('').map((letter, index) => {
+  const displayWord = selectedWord.split('').map((letter) => {
     if (guessedLetters.includes(letter)) {
       return letter;
     } else {
@@ -45,20 +45,26 @@ const Hangman = ({ words, hints }: HangmanProps) => {
     setErrorCount(0);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const letter = e.target.value.toLowerCase();
+    if (letter.match(/^[a-z]$/i)) {
+      handleGuess(letter);
+      e.target.value = ''; // Limpiar el input después de cada entrada
+    }
+  };
+
   return (
     <div>
       {selectedWord && (
         <>
           <p>{displayWord.join(' ')}</p>
           <p>Hint: {hints[selectedWord]}</p>
-          <input maxLength={1} onChange={(e) => handleGuess(e.target.value)} />
+          <input maxLength={1} onChange={handleChange} />
           {(displayWord.join('') === selectedWord || errorCount > 5) && (
             <button onClick={restartGame}>Select New Word</button>
           )}
           <p>Error count: {errorCount}</p>
-          {displayWord.join('') === selectedWord && (
-            <p>You won in this round</p>
-          )}
+          {displayWord.join('') === selectedWord && <p>You won this round!</p>}
         </>
       )}
     </div>
@@ -66,5 +72,3 @@ const Hangman = ({ words, hints }: HangmanProps) => {
 };
 
 export default Hangman;
-
-

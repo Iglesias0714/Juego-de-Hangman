@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Hangman from "./components/Hangman"; // Importar el componente Hangman
-import Welcome from "./components/Welcome"; // Importar el componente Welcome
+import { useState, useEffect } from 'react';
+import Hangman from "./components/Hangman";
+import Welcome from "./components/Welcome";
 
 type WordCategories = {
   [key: string]: {
